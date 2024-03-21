@@ -51,11 +51,13 @@ extendInputType("date", {
 # Create the User Interface
 
 ui <- fluidPage(
+  # TODO
   # Add an input for observer.  This will become subject_id.
+  
   # This function from shinysurveys package generates the survey questions.
   surveyOutput(df = df,
                survey_title = "Generic Data Input",
-               survey_description = "This is Claire's test at data input into Google Sheets."),
+               survey_description = "This is Claire's test at data input into Google Sheets or OSF csv."),
   
   # This standard shiny function generates a plot that only shows up after being submitted
   # due to the observeEvent in the server function below.
@@ -76,7 +78,7 @@ server <- function(input, output, session) {
   observeEvent(input$submit, {
 
     #at submit, get survey data into response_data frame    
-    response_data <- getSurveyData(  custom_id = "test",
+    response_data <- getSurveyData(  custom_id = "test", #TODO replace "test" with object for user name
                                      include_dependencies = TRUE, # from help: "The number of rows, corresponding to the questions an individual saw, depends on the include_dependencies argument. If TRUE, by default, then the resulting data frame will have one row per unique input ID. "
                                      dependency_string = "HIDDEN-QUESTION"
                                      )
@@ -84,7 +86,7 @@ server <- function(input, output, session) {
     # display data for confirmation it worked
     print(response_data)
     
-    # Then wrangle into format for google sheet rows
+    # Then wrangle into format for wider data more suitable for analysis or plotting
 
     response_wide <- response_data %>%
       dplyr::select(-question_type) %>%
