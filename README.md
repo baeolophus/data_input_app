@@ -1,0 +1,1 @@
+This is an RShiny app to input data using the shinysurveys package with some additional code adapted to input the data into a google sheets or OSF file.  I welcome pull requests or collaborators.  The goal is to make an easy survey app less dependent on Google for researchers and scholars who may not be ready to build their own Shiny app from scratch.
