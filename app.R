@@ -1,5 +1,15 @@
+##################################
+# Install non-CRAN packages as needed
+# for development only, not needed in production
+# devtools::install_github("ewenme/shinya11y") # https://www.appsilon.com/post/r-shiny-accessibility
+
+##################################
+# Load packages
+
 library(dplyr)
 library(shiny)
+library(shinya11y) # Use accessibility checker to start https://r-craft.org/accessibility-web-development-how-to-make-r-shiny-apps-accessible/
+library(shinyMobile) # TODO: ensure data collection works on mobile. potential alternative: https://github.com/pedrocoutinhosilva/shiny.pwa
 library(shinysurveys)
 library(tidyr)
 
@@ -14,7 +24,7 @@ df <- data.frame(question = "How many grams weighed?",
                  required = F)
 
 many_options <- data.frame(question = "What kind of input?",
-                 option = c("document_type1", "document_type2"),
+                 option = c("leaves", "stems"),
                  # Use the c() vector of character options to pull in a unique set of values here as long as needed
                  input_type = "select",
                  input_id = "input_type",
@@ -47,12 +57,16 @@ extendInputType("date", {
   )
 })
 
+# Add functions for OSF, Google Sheets, local writing??
 
+##################################
 # Create the User Interface
 
 ui <- fluidPage(
   # TODO
   # Add an input for observer.  This will become subject_id.
+  
+  # Add an input for the location of the data sheet to be modified.
   
   # This function from shinysurveys package generates the survey questions.
   surveyOutput(df = df,
@@ -67,7 +81,8 @@ ui <- fluidPage(
   
   )
 
-# Activities on the server
+##################################
+# Reactive activities on the server
 
 server <- function(input, output, session) {
 
@@ -99,14 +114,17 @@ server <- function(input, output, session) {
     
     print(response_wide)
     
-    # Then submit to google sheets with reactive
-    # https://www.jdtrat.com/blog/connect-shiny-google/
-    # Other options:
-    #   https://medium.com/@joyplumeri/using-r-shiny-to-create-web-surveys-display-instant-feedback-and-store-data-on-google-drive-68f46eea0f8b
-    #   https://medium.com/@predict42/google-sheets-in-r-shiny-a-happy-marriage-8812303711ac
+    # Have it modify a data sheet at one of three locations: google sheet, osf, local.
+    #   Then submit to google sheets with reactive
+    #   https://www.jdtrat.com/blog/connect-shiny-google/
+    #  Other options:
+    #     https://medium.com/@joyplumeri/using-r-shiny-to-create-web-surveys-display-instant-feedback-and-store-data-on-google-drive-68f46eea0f8b
+    #     https://medium.com/@predict42/google-sheets-in-r-shiny-a-happy-marriage-8812303711ac
 
-    # Alternatively, do a file upload
-    # https://googledrive.tidyverse.org/ or osfr package
+    #   Alternatively, do a file upload
+    #   https://googledrive.tidyverse.org/ or osfr package
+    
+    #   Alternatively, let it write to a local csv file.
     
     
     showModal(modalDialog(title = "You have entered an observation.",
