@@ -8,7 +8,7 @@
 
 library(dplyr)
 library(shiny)
-library(shinya11y) # Use accessibility checker to start https://r-craft.org/accessibility-web-development-how-to-make-r-shiny-apps-accessible/
+#library(shinya11y) # Use accessibility checker to start https://r-craft.org/accessibility-web-development-how-to-make-r-shiny-apps-accessible/
 library(shinyMobile) # TODO: ensure data collection works on mobile. potential alternative: https://github.com/pedrocoutinhosilva/shiny.pwa
 library(shinysurveys)
 library(tidyr)
@@ -51,6 +51,7 @@ extendInputType("date", {
   shiny::dateInput(
     inputId = surveyID(),
     value = Sys.Date(),
+    # Check if dates go historical (to 1889)
     label = surveyLabel(),
     min = Sys.Date()-10,
     max = Sys.Date()+10
